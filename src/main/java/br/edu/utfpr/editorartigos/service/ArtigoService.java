@@ -19,5 +19,5 @@ public interface ArtigoService extends CrudService<Artigo, Long> {
 
     Set<Artigo> artigosMaisVistos();
 
-    List<Artigo> findArtigoByTitulo(String query);
+    List<Artigo> findArtigoByTituloOrPalavrasChave(String query);
 }

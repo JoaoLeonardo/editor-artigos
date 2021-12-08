@@ -16,5 +16,5 @@ public interface ArtigoRepository extends JpaRepository<Artigo, Long> {
 
     Set<Artigo> findTop10ByOrderByVisualizacoesDesc();
 
-//    List<Artigo> findArtigoByTituloOrPalavrasChave(String query);
+    List<Artigo> findArtigoByTituloContainsOrPalavrasChaveContainsOrderByTitulo(String titulo, String palavraChave);
 }

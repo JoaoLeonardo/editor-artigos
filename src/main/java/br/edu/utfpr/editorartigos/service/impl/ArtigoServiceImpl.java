@@ -37,6 +37,7 @@ public class ArtigoServiceImpl extends CrudServiceImpl<Artigo, Long> implements 
     public Artigo cadastrarArtigo(Artigo artigo) throws Exception {
         if (artigo.getId() == null) {
             artigo.setAutor(usuarioService.getUsuarioLogado());
+            artigo.setVisualizacoes(0L);
         }
         return save(artigo);
     }
@@ -92,8 +93,7 @@ public class ArtigoServiceImpl extends CrudServiceImpl<Artigo, Long> implements 
 
 
     @Override
-    public List<Artigo> findArtigoByTitulo(String query) {
-        return List.of(Artigo.builder().build());
-//        return  artigoRepository.findArtigoByTituloOrPalavrasChave(query);
+    public List<Artigo> findArtigoByTituloOrPalavrasChave(String query) {
+        return  artigoRepository.findArtigoByTituloContainsOrPalavrasChaveContainsOrderByTitulo(query, query);
     }
 }

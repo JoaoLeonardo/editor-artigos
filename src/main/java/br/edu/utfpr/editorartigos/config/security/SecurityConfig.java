@@ -35,14 +35,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http.authorizeRequests().antMatchers("/login/**").permitAll()
-                .antMatchers(HttpMethod.POST,"/categorias/**").hasAnyRole( "ADMIN")
-                .antMatchers(HttpMethod.PUT,"/categorias/**").hasAnyRole( "ADMIN")
-                .antMatchers(HttpMethod.DELETE,"/categorias/**").hasAnyRole( "ADMIN")
+                .antMatchers(HttpMethod.POST,"/categorias/**").hasAnyRole( "ROLE_ADMIN")
+                .antMatchers(HttpMethod.PUT,"/categorias/**").hasAnyRole( "ROLE_ADMIN")
+                .antMatchers(HttpMethod.DELETE,"/categorias/**").hasAnyRole( "ROLE_ADMIN")
                 .antMatchers(HttpMethod.GET,"/categorias/**").authenticated()
                 .antMatchers("/artigos/**").authenticated()
                 .antMatchers("/usuario").permitAll()
                 .antMatchers("/login").permitAll()
-                .anyRequest().permitAll();
+                .anyRequest().authenticated();
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
