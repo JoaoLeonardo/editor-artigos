@@ -16,6 +16,9 @@ public class ArtigoController {
 
     @PostMapping("incluir")
     public Artigo incluir(@RequestBody Artigo artigo) throws Exception {
+        if (artigo != null) {
+            artigo.setVisualizacoes(0L);
+        }
         return artigoService.cadastrarArtigo(artigo);
     }
 
