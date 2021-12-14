@@ -62,8 +62,10 @@ public class UsuarioServiceImpl extends CrudServiceImpl<Usuario, Long> implement
 
     @Override
     public Usuario cadastrarUsuario(Usuario usuario) throws Exception {
-        usuario.setPassword(encoder.encode(usuario.getPassword()));
-        usuario.setPermissoes(Set.of(permissaoRepository.findByNome("ROLE_USER")));
+        if (usuario.getId() == null) {
+            usuario.setPassword(encoder.encode(usuario.getPassword()));
+            usuario.setPermissoes(Set.of(permissaoRepository.findByNome("ROLE_USER")));
+        }
         return save(usuario);
     }
 
