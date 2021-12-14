@@ -15,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration @EnableWebSecurity @RequiredArgsConstructor
@@ -34,12 +36,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         customAuthenticationFilter.setFilterProcessesUrl("/login");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeRequests().antMatchers("/login/**").permitAll()
-                .antMatchers(HttpMethod.POST,"/categoria/**").hasAnyRole( "ROLE_ADMIN")
-                .antMatchers(HttpMethod.PUT,"/categoria/**").hasAnyRole( "ROLE_ADMIN")
-                .antMatchers(HttpMethod.DELETE,"/categoria/**").hasAnyRole( "ROLE_ADMIN")
+        http.authorizeRequests()
+                .antMatchers(HttpMethod.POST,"/categoria/**").hasAnyAuthority( "ROLE_ADMIN")
+                .antMatchers(HttpMethod.PUT,"/categoria/**").hasAnyAuthority( "ROLE_ADMIN")
+                .antMatchers(HttpMethod.DELETE,"/categoria/**").hasAnyAuthority( "ROLE_ADMIN")
                 .antMatchers(HttpMethod.GET,"/categoria/**").authenticated()
-                .antMatchers("/artigos/**").authenticated()
                 .antMatchers("/usuario/**").permitAll()
                 .antMatchers("/login").permitAll()
                 .anyRequest().authenticated();
