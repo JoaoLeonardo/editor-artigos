@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -24,12 +25,6 @@ public class ControllerAdviceHandlerException extends ResponseEntityExceptionHan
     public ResponseEntity<ErrorResponse> usuarioJaExiste(UsuarioJaExisteException exception, WebRequest request) {
         var errorResponse = new ErrorResponse(exception.getMessage());
         return new ResponseEntity<>((errorResponse), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(value = AccessDeniedException.class)
-    public ResponseEntity<ErrorResponse> acessoNegado(AccessDeniedException exception, WebRequest request) {
-        var errorResponse = new ErrorResponse("Acesso negado");
-        return new ResponseEntity<>((errorResponse), HttpStatus.FORBIDDEN);
     }
 
     @Override
