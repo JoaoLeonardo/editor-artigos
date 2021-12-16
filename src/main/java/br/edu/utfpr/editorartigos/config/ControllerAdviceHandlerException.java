@@ -2,13 +2,12 @@ package br.edu.utfpr.editorartigos.config;
 
 import br.edu.utfpr.editorartigos.exception.CategoriaJaExisteException;
 import br.edu.utfpr.editorartigos.exception.UsuarioJaExisteException;
+import br.edu.utfpr.editorartigos.exception.UsuarioLogadoDiferenteDoAutorException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -23,6 +22,12 @@ public class ControllerAdviceHandlerException extends ResponseEntityExceptionHan
 
     @ExceptionHandler(value = UsuarioJaExisteException.class)
     public ResponseEntity<ErrorResponse> usuarioJaExiste(UsuarioJaExisteException exception, WebRequest request) {
+        var errorResponse = new ErrorResponse(exception.getMessage());
+        return new ResponseEntity<>((errorResponse), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = UsuarioLogadoDiferenteDoAutorException.class)
+    public ResponseEntity<ErrorResponse> usuarioJaExiste(UsuarioLogadoDiferenteDoAutorException exception, WebRequest request) {
         var errorResponse = new ErrorResponse(exception.getMessage());
         return new ResponseEntity<>((errorResponse), HttpStatus.BAD_REQUEST);
     }

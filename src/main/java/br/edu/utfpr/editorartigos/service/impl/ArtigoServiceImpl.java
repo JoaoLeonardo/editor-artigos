@@ -1,5 +1,6 @@
 package br.edu.utfpr.editorartigos.service.impl;
 
+import br.edu.utfpr.editorartigos.exception.UsuarioLogadoDiferenteDoAutorException;
 import br.edu.utfpr.editorartigos.model.Artigo;
 import br.edu.utfpr.editorartigos.model.Categoria;
 import br.edu.utfpr.editorartigos.model.Usuario;
@@ -30,6 +31,9 @@ public class ArtigoServiceImpl extends CrudServiceImpl<Artigo, Long> implements 
 
     @Override
     public void valid(Artigo entity) throws Exception {
+        if(entity.getId() != null && !Optional.ofNullable(entity).map(Artigo::getAutor).map(Usuario::getUsername).orElse("").equals(usuarioService.getUsuarioLogado().getUsername())) {
+            throw new UsuarioLogadoDiferenteDoAutorException("Usuário logado não é o autor do artigo");
+        }
 
     }
 
